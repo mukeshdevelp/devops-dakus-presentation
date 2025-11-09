@@ -2,27 +2,27 @@ from flask import Flask, request
 import subprocess
 import json
 
-
 app = Flask(__name__)
 
 IMAGE = "msmukeshkumarsharma/demo-app-npm-v2"
 CONTAINER = "myapp"
 PORT = "3000"
 
-CONTAINER = "myapp"
-PORT = "3000"
+def sh(cmd):
+    print(f"→ {cmd}")
+    subprocess.run(cmd, shell=True, check=False)
 
 def deploy():
-    run(f"docker pull {IMAGE}:latest")
-    run(f"docker stop {CONTAINER} || true")
-    run(f"docker rm {CONTAINER} || true")
-    run(f"""
-docker run -d \
-  --name {CONTAINER} \
-  --restart always \
-  -p {PORT}:{PORT} \
-  {IMAGE}:latest
-""")
+    sh(f"docker pull {IMAGE}:latest")
+    sh(f"docker stop {CONTAINER} || true")
+    sh(f"docker rm {CONTAINER} || true")
+    sh(
+        f"docker run -d "
+        f"--name {CONTAINER} "
+        f"--restart always "
+        f"-p {PORT}:{PORT} "
+        f"{IMAGE}:latest"
+    )
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
