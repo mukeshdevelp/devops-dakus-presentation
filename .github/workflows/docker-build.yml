@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/demo-app-npm-v2:latest .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/msmukeshkumarsharma/myapp.
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/demo-app-npm-v2:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/msmukeshkumarsharma/myapp:latest
