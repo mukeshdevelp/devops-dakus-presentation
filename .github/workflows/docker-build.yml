@@ -1,31 +1,33 @@
-name: Build and Push Docker image to Docker Hub
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main  # Runs this workflow whenever you push to main branch
+      - main  # or your deployment branch
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+    - name: Log in to Docker registry
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+    - name: Build Docker image
+      run: docker build -t my-app:latest .
 
-      - name: Build and push image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-flask-docker-app:latest
+    - name: Push Docker image
+      run: docker tag my-app:latest my-docker-registry.com/my-app:latest && docker push my-docker-registry.com/my-app:latest
 
+    - name: Trigger EC2 deployment
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: ${{ secrets.EC2_WEBHOOK_URL }}
+        # request method
+        method: POST
