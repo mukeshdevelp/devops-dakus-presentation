@@ -24,7 +24,7 @@ def deploy():
         f"{IMAGE}:latest"
     )
 
-@app.route("/webhook", methods=["POST"])
+@app.route("/", methods=["POST"])
 def webhook():
     try:
         payload = request.get_json()
