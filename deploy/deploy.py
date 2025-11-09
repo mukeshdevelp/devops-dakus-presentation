@@ -7,7 +7,7 @@ app = Flask(__name__)
 IMAGE = "msmukeshkumarsharma/demo-app-npm-v2"
 CONTAINER = "myapp"
 PORT = "3000"
-
+# last deploy
 def sh(cmd):
     print(f"→ {cmd}")
     subprocess.run(cmd, shell=True, check=False)
