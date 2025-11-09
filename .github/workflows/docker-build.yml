@@ -1,33 +1,27 @@
-name: CI/CD Pipeline
+name: Build and Push to Docker Hub
 
 on:
   push:
     branches:
-      - main  # or your deployment branch
+      - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Log in to Docker registry
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Build Docker image
-      run: docker build -t my-app:latest .
+      - name: Build and Push Image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
 
-    - name: Push Docker image
-      run: docker tag my-app:latest my-docker-registry.com/my-app:latest && docker push my-docker-registry.com/my-app:latest
-
-    - name: Trigger EC2 deployment
-      uses: fjogeleit/http-request-action@v1
-      with:
-        url: ${{ secrets.EC2_WEBHOOK_URL }}
-        # request method
-        method: POST
