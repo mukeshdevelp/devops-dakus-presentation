@@ -1,7 +1,10 @@
-from fastapi import FastAPI
+from flask import Flask
 
-app = FastAPI()
+app = Flask(__name__)
 
-@app.get("/")
+@app.route("/")
 def home():
-    return {"message": "Auto Deploy Test Success from mukesh!"}
+    return "Flask Deployment Working!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=3000)

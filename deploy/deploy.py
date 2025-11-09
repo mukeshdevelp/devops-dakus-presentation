@@ -1,13 +1,13 @@
 from flask import Flask, request
 import subprocess
 import json
-# running app point
+
 app = Flask(__name__)
 
 IMAGE = "msmukeshkumarsharma/demo-app-npm-v2"
 CONTAINER = "myapp"
 PORT = "3000"
-# last deploy
+
 def sh(cmd):
     print(f"→ {cmd}")
     subprocess.run(cmd, shell=True, check=False)
@@ -28,11 +28,9 @@ def deploy():
 def webhook():
     try:
         payload = request.get_json()
-        print("Received Webhook:")
-        print(json.dumps(payload, indent=2))
+        print("Webhook Received:", json.dumps(payload, indent=2))
     except:
-        print("Received Webhook (no JSON body)")
-
+        print("Webhook Received (no JSON body)")
     print("Deploying new version...")
     deploy()
     return "OK", 200
