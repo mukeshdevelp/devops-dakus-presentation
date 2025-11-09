@@ -1,7 +1,7 @@
 from flask import Flask, request
 import subprocess
 import json
-
+# running app point
 app = Flask(__name__)
 
 IMAGE = "msmukeshkumarsharma/demo-app-npm-v2"
