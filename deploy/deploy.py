@@ -4,7 +4,7 @@ import json
 
 app = Flask(__name__)
 
-IMAGE = "msmukeshkumarsharma/demo-app-npm-v2"
+IMAGE = "msmukeshkumarsharma/myapp"
 CONTAINER = "myapp"
 PORT = "3000"
 
