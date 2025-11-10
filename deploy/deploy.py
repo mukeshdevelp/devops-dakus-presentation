@@ -4,14 +4,14 @@ import json
 
 app = Flask(__name__)
 
-IMAGE = "msmukeshkumarsharma/myapp"
+IMAGE = "msmukeshkumarsharma/myapp"	
 CONTAINER = "myapp"
 PORT = "3000"
 
 def sh(cmd):
     print(f"→ {cmd}")
     subprocess.run(cmd, shell=True, check=False)
-#deploy file
+
 def deploy():
     sh(f"docker pull {IMAGE}:latest")
     sh(f"docker stop {CONTAINER} || true")
@@ -28,11 +28,14 @@ def deploy():
 def webhook():
     try:
         payload = request.get_json()
-        print("Webhook Received:", json.dumps(payload, indent=2))
+        print("Received Webhook:")
+        print(json.dumps(payload, indent=2))
     except:
-        print("Webhook Received (no JSON body)")
+        print("Received Webhook (no JSON body)")
+
     print("Deploying new version...")
     deploy()
+    sh("")
     return "OK", 200
 
 if __name__ == "__main__":
