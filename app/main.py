@@ -4,7 +4,7 @@ app = Flask(__name__)
 # route table
 @app.route("/")
 def home():
-    return "Flask Deployment Working!"
+    return "Flask Deployment Working fastly!"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
