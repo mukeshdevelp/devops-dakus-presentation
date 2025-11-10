@@ -11,7 +11,7 @@ PORT = "3000"
 def sh(cmd):
     print(f"→ {cmd}")
     subprocess.run(cmd, shell=True, check=False)
-
+#deploy file
 def deploy():
     sh(f"docker pull {IMAGE}:latest")
     sh(f"docker stop {CONTAINER} || true")
